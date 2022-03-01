@@ -20,9 +20,24 @@ sboms:
   - artifacts: binary
 
 nfpms:
-  - id: packages # here we say that artifacts built with nfpm will be identified with `packages` string.
-    file_name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
-
+  - id: hello
+    package_name: hello
+    file_name_template: "{{ .ConventionalFileName }}"
+    maintainer: James <strong.james.e@gmail.com>
+    builds:
+      - linux
+    description: |-
+      Hello package install testing
+    replacements:
+      amd64: 64-bit
+      386: 32-bit
+      darwin: macOS
+      linux: Tux
+    license: Apache 2.0
+    formats:
+      - apk
+      - deb
+      - rpm
 builds:
   - id: darwin-amd64
     binary: hello-darwin-amd64
@@ -37,9 +52,6 @@ builds:
       - amd64
     ldflags:
       - "{{ .Env.LDFLAGS }}"
-    tags:
-      - pivkey
-      - pkcs11key
 
   - id: darwin-arm64
     binary: hello-darwin-arm64
